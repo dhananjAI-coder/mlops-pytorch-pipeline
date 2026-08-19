@@ -1,0 +1,14 @@
+.git
+.github
+data/
+checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+test_image.png
+.ipynb_checkpoints/
+.pytest_cache/
