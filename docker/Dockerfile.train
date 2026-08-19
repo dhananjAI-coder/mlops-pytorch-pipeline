@@ -1,0 +1,30 @@
+# =========================
+# Stage 1: Build dependencies
+# =========================
+FROM python:3.11-slim AS builder
+
+WORKDIR /app
+
+COPY requirements/train.txt .
+
+RUN pip install --no-cache-dir --prefix=/install \
+    -r train.txt
+
+
+# =========================
+# Stage 2: Training image
+# =========================
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY --from=builder /install /usr/local
+
+COPY src/ ./src/
+COPY configs/ ./configs/
+
+RUN mkdir -p /app/data /app/checkpoints
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "src/train.py"]
